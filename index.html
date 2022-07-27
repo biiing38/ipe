@@ -29,12 +29,22 @@
   <script>
 
   // Set up initial map center and zoom level
-  var map = L.map('map', {
-    center: [45.34587189874767, 5,296783447265626], // EDIT latitude, longitude to re-center map
-    zoom: 9,  // EDIT from 1 to 18 -- decrease to zoom out, increase to zoom in
-    scrollWheelZoom: false,
-    tap: false
-  });
+   var map = L.map('map', {
+        crs: L.geoportalCRS.EPSG2154,
+    }).setView([45.7481787494123, 4.725191295146942], 18);
+    var lyr = L.geoportalLayer.WMTS({
+        layer: "GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2.L93"
+    },
+    {
+    	format:"image/png"
+    });
+    lyr.addTo(map); // ou map.addLayer(lyr);
+}
+
+Gp.Services.getConfig({
+    apiKey: "lambert93",
+    onSuccess: go
+});
 
   /* Control panel to display map layers */
   var controlLayers = L.control.layers( null, null, {
